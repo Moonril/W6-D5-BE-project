@@ -1,7 +1,10 @@
 package it.epicode.W6_D5_BE_project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -13,9 +16,10 @@ public class Dipendente {
     private String cognome;
     private String username;
     private String email;
+    private String urlAvatar = "";
 
-    @OneToOne
-    @JoinColumn(name = "prenotazione_id")
-    private Prenotazione prenotazione;
+    @JsonIgnore
+    @OneToMany(mappedBy = "dipendente")
+    private List<Prenotazione> prenotazioni;
 
 }

@@ -13,6 +13,6 @@ public class ViaggioDto {
     private String destinazione;
     @NotNull(message = "Inserisci una data corretta")
     private LocalDate dataViaggio;
-    @NotNull(message = "Inserisci stato attuale del viaggio")
-    private StatoViaggio statoViaggio;
+    // collegamenti
+    //todo
 }

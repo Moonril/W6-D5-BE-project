@@ -12,4 +12,6 @@ public class PrenotazioneDto {
     @NotNull(message = "Inserisci stato attuale del viaggio")
     private LocalDate dataRichiesta;
     private String preferenze;
+    // collegamenti
+    //todo
 }

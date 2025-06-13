@@ -1,10 +1,12 @@
 package it.epicode.W6_D5_BE_project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.epicode.W6_D5_BE_project.enums.StatoViaggio;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,10 +17,10 @@ public class Viaggio {
     private String destinazione;
     private LocalDate dataViaggio;
     @Enumerated(EnumType.STRING)
-    private StatoViaggio statoViaggio;
+    private StatoViaggio statoViaggio = StatoViaggio.In_PROGRAMMA;
 
-    @OneToOne
-    @JoinColumn(name = "prenotazione_id")
-    private Prenotazione prenotazione;
+    @JsonIgnore
+    @OneToMany(mappedBy = "viaggio")
+    private List<Prenotazione> prenotazioni;
 
 }
