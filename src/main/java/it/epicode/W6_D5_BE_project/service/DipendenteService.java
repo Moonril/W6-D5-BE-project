@@ -62,17 +62,14 @@ public class DipendenteService {
         dipendenteRepository.delete(dipendenteDaCancellare);
     }
 
-    // patch avatar
-    // todo
-
     public String patchDipendente(int id, MultipartFile file) throws NotFoundException, IOException {
         Dipendente dipendeteDaPatchare = getDipendente(id);
 
         String url = (String)cloudinary.uploader().upload(file.getBytes(), Collections.emptyMap()).get("url");
 
-        autoreDaPatchare.setUrlAvatar(url);
+        dipendeteDaPatchare.setUrlAvatar(url);
 
-        authorRepository.save(autoreDaPatchare);
+        dipendenteRepository.save(dipendeteDaPatchare);
 
         return url;
     }

@@ -1,6 +1,7 @@
 package it.epicode.W6_D5_BE_project.service;
 
 import it.epicode.W6_D5_BE_project.dto.ViaggioDto;
+import it.epicode.W6_D5_BE_project.enums.StatoViaggio;
 import it.epicode.W6_D5_BE_project.exceptions.NotFoundException;
 import it.epicode.W6_D5_BE_project.model.Prenotazione;
 import it.epicode.W6_D5_BE_project.model.Viaggio;
@@ -11,7 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -55,4 +59,16 @@ public class ViaggioService {
 
     //patch per cambiare stato
     //todo
+
+//    public String patchViaggio(int id, String nuovoStato) throws NotFoundException, IOException {
+//        Viaggio viaggioDaPatchare = getViaggio(id);
+//
+//        StatoViaggio statoEnum;
+//        statoEnum = StatoViaggio.valueOf(nuovoStato.toUpperCase());
+//        viaggioDaPatchare.setStatoViaggio(statoEnum); //???
+//
+//        return viaggioRepository.save(viaggioDaPatchare);
+//
+//    }
+
 }
