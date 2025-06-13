@@ -9,9 +9,8 @@ import java.time.LocalDate;
 @Data
 public class PrenotazioneDto {
 
-    @NotNull(message = "Inserisci stato attuale del viaggio")
-    private LocalDate dataRichiesta;
     private String preferenze;
-    // collegamenti
-    //todo
+
+    private int viaggioId;
+    private int dipendenteId;
 }

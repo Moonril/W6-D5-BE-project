@@ -11,7 +11,7 @@ public class Prenotazione {
     @Id
     @GeneratedValue
     private int id;
-    private LocalDate dataRichiesta;
+    private LocalDate dataRichiesta = LocalDate.now();
     private String preferenze;
 
     @ManyToOne

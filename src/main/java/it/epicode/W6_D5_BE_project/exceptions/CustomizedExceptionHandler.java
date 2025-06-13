@@ -31,4 +31,14 @@ public class CustomizedExceptionHandler {
 
     }
 
+    @ExceptionHandler(PrenotazioneGiaEsistenteException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError PrenotazioneGiaEsistenteExceptionHandler(PrenotazioneGiaEsistenteException e){
+        ApiError error = new ApiError();
+        error.setMessage(e.getMessage());
+        error.setDataErrore(LocalDateTime.now());
+        return error;
+
+    }
+
 }

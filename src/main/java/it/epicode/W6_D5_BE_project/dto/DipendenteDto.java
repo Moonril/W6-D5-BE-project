@@ -1,5 +1,7 @@
 package it.epicode.W6_D5_BE_project.dto;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -13,9 +15,4 @@ public class DipendenteDto {
     private String username;
     @NotEmpty(message = "inserire l'email in un formato corretto")
     private String email;
-
-    //devo mettere il collegamento?
-
-    // collegamenti
-    //todo
 }

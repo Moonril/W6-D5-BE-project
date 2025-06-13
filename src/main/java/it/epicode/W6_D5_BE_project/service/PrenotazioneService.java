@@ -2,7 +2,9 @@ package it.epicode.W6_D5_BE_project.service;
 
 import it.epicode.W6_D5_BE_project.dto.PrenotazioneDto;
 import it.epicode.W6_D5_BE_project.exceptions.NotFoundException;
+import it.epicode.W6_D5_BE_project.model.Dipendente;
 import it.epicode.W6_D5_BE_project.model.Prenotazione;
+import it.epicode.W6_D5_BE_project.model.Viaggio;
 import it.epicode.W6_D5_BE_project.repository.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,13 +22,30 @@ public class PrenotazioneService {
     @Autowired
     private PrenotazioneRepository prenotazioneRepository;
 
-    public Prenotazione savePrenotazione(PrenotazioneDto prenotazioneDto){
+    @Autowired
+    private ViaggioService viaggioService;
+
+    @Autowired
+    private DipendenteService dipendenteService;
+
+    public Prenotazione savePrenotazione(PrenotazioneDto prenotazioneDto) throws NotFoundException {
+        Viaggio viaggio = viaggioService.getViaggio(prenotazioneDto.getViaggioId());
+        Dipendente dipendente = dipendenteService.getDipendente(prenotazioneDto.getDipendenteId());
+
+        List<Prenotazione> prenotazioniEsistenti =
+                prenotazioneRepository.findByDipendenteIdAndDataRichiesta(
+                        dipendente.getId(), viaggio.getDataViaggio()
+                );
+
+        if (!prenotazioniEsistenti.isEmpty()) {
+            throw new IllegalStateException("Il dipendente ha già una prenotazione per questa data.");
+        }
+
         Prenotazione prenotazione = new Prenotazione();
 
         prenotazione.setPreferenze(prenotazioneDto.getPreferenze());
-        prenotazione.setDataRichiesta(prenotazioneDto.getDataRichiesta());
-        //aggiungere i due collegamenti? //todo
-
+        prenotazione.setViaggio(viaggio);
+        prenotazione.setDipendente(dipendente);
 
         return prenotazioneRepository.save(prenotazione);
     }
@@ -43,13 +63,12 @@ public class PrenotazioneService {
         Prenotazione prenotazioneDaAggiornare = getPrenotazione(id);
 
         prenotazioneDaAggiornare.setPreferenze(prenotazioneDto.getPreferenze());
-        prenotazioneDaAggiornare.setDataRichiesta(prenotazioneDto.getDataRichiesta());
 
-        //todo
-//        if(prenotazioneDaAggiornare.getAutore().getId()!=blogDto.getAuthorId()){
-//            Author author = authorService.getAuthor(blogDto.getAuthorId());
-//            blogToUpdate.setAutore(author);
-//        }
+
+        if(prenotazioneDaAggiornare.getViaggio().getId()!=prenotazioneDto.getViaggioId()){
+            Viaggio viaggio = viaggioService.getViaggio(prenotazioneDto.getViaggioId());
+            prenotazioneDaAggiornare.setViaggio(viaggio);
+        }
         return prenotazioneRepository.save(prenotazioneDaAggiornare);
     }
 
@@ -58,6 +77,5 @@ public class PrenotazioneService {
         prenotazioneRepository.delete(prenotazioneToDelete);
     }
 
-    //
 
 }
