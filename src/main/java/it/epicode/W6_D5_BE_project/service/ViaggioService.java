@@ -60,15 +60,15 @@ public class ViaggioService {
     //patch per cambiare stato
     //todo
 
-//    public String patchViaggio(int id, String nuovoStato) throws NotFoundException, IOException {
-//        Viaggio viaggioDaPatchare = getViaggio(id);
-//
-//        StatoViaggio statoEnum;
-//        statoEnum = StatoViaggio.valueOf(nuovoStato.toUpperCase());
-//        viaggioDaPatchare.setStatoViaggio(statoEnum); //???
-//
-//        return viaggioRepository.save(viaggioDaPatchare);
-//
-//    }
+    public Viaggio patchViaggio(int id, String nuovoStato) throws NotFoundException {
+        Viaggio viaggioDaPatchare = getViaggio(id);
+
+        StatoViaggio statoEnum;
+        statoEnum = StatoViaggio.valueOf(nuovoStato.toUpperCase());
+        viaggioDaPatchare.setStatoViaggio(statoEnum); //???
+
+        return viaggioRepository.save(viaggioDaPatchare);
+
+    }
 
 }

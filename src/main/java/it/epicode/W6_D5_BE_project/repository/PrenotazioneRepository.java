@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Integer> {
 
-    List<Prenotazione> findByDipendenteIdAndDataRichiesta(Integer dipendenteId, LocalDate dataRichiesta);
+    boolean existsByDipendenteIdAndViaggio_DataViaggio(Integer dipendenteId, LocalDate dataViaggio);
 }

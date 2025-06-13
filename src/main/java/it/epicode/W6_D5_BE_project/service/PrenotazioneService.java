@@ -2,6 +2,7 @@ package it.epicode.W6_D5_BE_project.service;
 
 import it.epicode.W6_D5_BE_project.dto.PrenotazioneDto;
 import it.epicode.W6_D5_BE_project.exceptions.NotFoundException;
+import it.epicode.W6_D5_BE_project.exceptions.PrenotazioneGiaEsistenteException;
 import it.epicode.W6_D5_BE_project.model.Dipendente;
 import it.epicode.W6_D5_BE_project.model.Prenotazione;
 import it.epicode.W6_D5_BE_project.model.Viaggio;
@@ -32,13 +33,11 @@ public class PrenotazioneService {
         Viaggio viaggio = viaggioService.getViaggio(prenotazioneDto.getViaggioId());
         Dipendente dipendente = dipendenteService.getDipendente(prenotazioneDto.getDipendenteId());
 
-        List<Prenotazione> prenotazioniEsistenti =
-                prenotazioneRepository.findByDipendenteIdAndDataRichiesta(
-                        dipendente.getId(), viaggio.getDataViaggio()
-                );
+        boolean giaPrenotato = prenotazioneRepository
+                .existsByDipendenteIdAndViaggio_DataViaggio(dipendente.getId(), viaggio.getDataViaggio());
 
-        if (!prenotazioniEsistenti.isEmpty()) {
-            throw new IllegalStateException("Il dipendente ha già una prenotazione per questa data.");
+        if (giaPrenotato) {
+            throw new PrenotazioneGiaEsistenteException("Il dipendente ha già una prenotazione per quel giorno.");
         }
 
         Prenotazione prenotazione = new Prenotazione();
